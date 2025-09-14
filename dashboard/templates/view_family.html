@@ -1,0 +1,74 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %} View Family {%endblock %}
+{% block content %}
+
+<h1 class="familyHeading">{{ head.surname }} Family</h1>
+
+<section class="family-section">
+    
+    <div class="card">
+        <h3>Head Details</h3>
+        <div class="head-card">
+            <div class="head-details">
+                <h5>ID: {{ head.id }}</h5>
+                <h5>Name: {{ head.name }}</h5>
+                <h5>Surname: {{ head.surname }}</h5>
+                <h5>Birth Date: {{ head.dob }}</h5>
+                <h5>Mobile No: {{ head.mobno }}</h5>
+                <h5>Address: {{ head.address }}</h5>
+                <h5>State: {{ head.state }}</h5>
+                <h5>City: {{ head.city }}</h5>
+                <h5>Pincode: {{ head.pincode }}</h5>
+                <h5>Marital Status: {{ head.marital_status }}</h5>
+                {% if head.marital_status == "Married" %}
+                <h5>Wedding Date: {{ head.wedding_date }}</h5>
+                {% endif %}
+            </div>
+            <div class="head-photo">
+                <h5>Photo: </h5>
+                <img src="/media/{{head.photo}}" alt="{{head.photo}}" height="100px">
+                <a href="{% url 'update_head' head.id %}">Edit Head</a>
+            </div>
+        </div>
+        <div class="head-hobby">
+            <h4>Hobbies</h4>
+            <div class="hobby">
+                {% for hobby in hobbies %}
+                <h5>{{ forloop.counter }}. {{ hobby.hobby }}</h5>
+                {% endfor %}
+            </div>
+            <a href="{% url 'add_hobby' head.id %}">Add Hobby</a>
+            <a href="{% url 'update_hobby' head.id %}">Update Hobby</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Member Details</h3>
+        <a href="{% url 'add_member' head.id %}">Add Member</a>
+        <a href="{% url 'update_member' head.id %}">Update Member</a>
+
+        {% for member in members %}
+        <div class="member-card">
+            <div class="member-details">
+                <h4>Member {{ forloop.counter }}</h4>
+                <h5>ID: {{ member.id }}</h5>
+                <h5>Name: {{ member.member_name }}</h5>
+                <h5>Birth Date: {{ member.member_dob }}</h5>
+                <h5>Marital Status: {{ member.member_marital }}</h5>
+                {% if member.member_marital == "Married" %}
+                <h5>Wedding Date: {{ member.member_wedDate }}</h5>
+                {% endif %}
+                <h5>Education: {{ member.education }}</h5>
+            </div>
+            <div class="member-photo">
+                <h5>Photo:</h5>
+                <img src="/media/{{member.member_photo}}" alt="{{member.member_photo}}" height="100px">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
+

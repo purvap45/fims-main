@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+        <button class="loginBtn"><a href="{% url 'login_page' %}">Login</a></button>
+    </nav>
+    <!-- <a href="{% url 'login_page' %}">Login</a>
+    <a href="{% url 'dashboard' %}">Dashboard</a>
+    <a href="{% url 'family_form' %}">Family</a> -->
+
+    <section class="index-section">
+        <p>Keep Your Family Connected and Organized.</p>
+        <button class="registerBtn"><a href="{% url 'family_form' %}">Register</a></button>
+    </section>
+
+    <footer>
+        <div class="footer__bar">
+            Copyright © 2025 FamTree. All rights reserved.
+        </div>
+    </footer>
+
+</body>
+
+</html>

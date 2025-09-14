@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Family Form</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="{% static 'css/familystyle.css' %}" />
+</head>
+
+<body>
+  <h1>Registration Form</h1>
+  <div class="form-container">
+
+    <form id="updateForm" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h2>Family Head</h2>
+      <div class="head-container">
+        <div class="nameDiv">
+          {{ head_form.name.label_tag }} {{ head_form.name }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="surnameDiv">
+          {{ head_form.surname.label_tag }} {{ head_form.surname }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="dobDiv">
+          {{ head_form.dob.label_tag }} {{ head_form.dob }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="mobnoD">
+          {{ head_form.mobno.label_tag }} {{ head_form.mobno }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="addressDiv">
+          {{ head_form.address.label_tag }} {{ head_form.address }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="stateDiv">
+          {{ head_form.state.label_tag }} {{ head_form.state }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="cityDiv">
+          {{ head_form.city.label_tag }} {{ head_form.city }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="pincodeDiv">
+          {{ head_form.pincode.label_tag }} {{ head_form.pincode }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="maritalDiv">
+          {{ head_form.marital_status.label_tag }} {{ head_form.marital_status }}
+          <span class="errorMsg"></span>
+        </div>
+        <div id="wedding_date">
+          {{ head_form.wedding_date.label_tag }} {{ head_form.wedding_date }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="photoDiv">
+          {{ head_form.photo.label_tag }} {{ head_form.photo }}
+          <span class="errorMsg"></span>
+        </div>
+      </div>
+      <button type="submit" class="submitBtn">Submit</button>
+    </form>
+  </div>
+  <script src="{% static 'js/form.js' %}"></script>
+   <!-- <script src="{% static 'js/updateForm.js' %}"></script> -->
+  <script src="{% static 'js/statecity.js' %}"></script>
+  <!-- <script src="{% static 'js/formValidation.js' %}"></script> -->
+
+</body>
+
+</html>

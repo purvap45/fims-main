@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Update State</h1>
+    <form method="post">
+      {% csrf_token %} 
+      {{ state_form.state_name.label_tag }} 
+      {{ state_form.state_name }} 
+      {{ state_form.state_name.errors }}
+      <br />
+      {{ state_form.status.label_tag }} 
+      {{ state_form.status }} 
+      {{ state_form.status.errors }}
+
+      <button type="submit" class="submitBtn">Submit</button>
+      <!-- {{ state_form.non_field_errors }} -->
+    </form>
+  </body>
+</html>

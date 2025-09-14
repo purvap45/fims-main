@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %} Add Member {%endblock %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<section class="form-container">
+    <form action="" method="post" class="add-form" enctype="multipart/form-data">
+        <h2 class="form-heading">Add Member for Head: {{ head.name }}</h2>
+        {% csrf_token %}
+        {{ member_formset.management_form }}
+        <div id="member-container">
+            {% for form in member_formset %}
+            <div class="member-row">
+                <div class="memnameDiv">
+                    {{ form.member_name.label_tag }} {{ form.member_name }}
+                    <span class="errorMsg">{{ form.member_name.errors }}</span>
+                </div>
+                <div class="mem_dodDiv">
+                    {{ form.member_dob.label_tag }} {{ form.member_dob }}
+                    <span class="errorMsg">{{ form.member_dob.errors }}</span>
+                </div>
+                <div class="mem_msDiv">
+                    {{ form.member_marital.label_tag }} {{ form.member_marital }}
+                    <span class="errorMsg">{{ form.member_marital.errors }}</span>
+                </div>
+                <div class="member-wed" style="display:none">
+                    {{ form.member_wedDate.label_tag }} {{ form.member_wedDate }}
+                    <span class="errorMsg">{{ form.member_wedDate.errors }}</span>
+                </div>
+                <div class="educationDiv">
+                    {{ form.education.label_tag }} {{ form.education }}
+                    <span class="errorMsg">{{ form.education.errors }}</span>
+                </div>
+                <div class="mem_photDiv">
+                    {{ form.member_photo.label_tag }} {{ form.member_photo }}
+                    <span class="errorMsg">{{ form.member_photo.errors }}</span>
+                </div>
+                <button type="button" class="removeMember">Remove</button>
+            </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="addMember">+ Add Member</button>
+
+        {{ member_formset.non_field_errors }}
+
+        <button type="submit" class="submitBtn">Submit</button>
+    </form>
+</section>
+    
+<script src="{% static 'js/form.js' %}"></script>
+
+{% endblock %}

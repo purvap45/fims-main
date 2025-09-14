@@ -1,0 +1,99 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+h1 {
+    text-align: center;
+}
+.form-container {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    background-color: aqua;
+}
+form {
+    min-width: 40vw;
+    background-color: antiquewhite;
+    padding: 0 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+}
+
+label {
+    display: block;
+    margin: 0.2rem 0;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+input[type="file"],
+select,
+textarea  {
+    width: 100%;
+    border: 1px solid #dcdde1;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    /* margin-bottom: 0.5rem; */
+    background-color: white;
+}
+
+textarea {
+    height: 4rem;
+}
+.head-container {
+    border: 1px solid black;
+    padding: 1rem;
+    background-color: #f1f2f6
+}
+.member-row {
+    border: 1px solid black;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f1f2f6
+}
+
+#addHobby, #addMember {
+    background-color: #00a8ff;
+    color: #fff;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#addMember{
+    margin-bottom: 0.5rem;
+}
+.removeHobby, .removeMember {
+    background-color: #e84118;
+    color: #fff;
+    border: none;
+    padding: 0.45rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.removeHobby{
+    margin-bottom: 0.5rem;
+}
+.submitBtn {
+    width: 100%;
+    background-color: #00a8ff;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border: none;
+    padding: 0.4rem 0.7rem;
+}
+
+
+.errorMsg {
+    color: red;
+    font-size: 0.7rem;
+    display: block;
+    /* padding: 0;
+    margin: 0;
+    list-style-type: none; */
+    /* margin-top: 0.2rem; */
+}

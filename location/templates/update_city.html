@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Update City</h1>
+    <form method="post">
+      {% csrf_token %} 
+      {{ city_form.state.label_tag }} 
+      {{ city_form.state }} 
+      {{ city_form.state.errors }}
+      <br />
+      {{ city_form.city_name.label_tag }} 
+      {{ city_form.city_name }} 
+      {{ city_form.city_name.errors }}
+      <br />
+      {{ city_form.status.label_tag }} 
+      {{ city_form.status }} 
+      {{ city_form.status.errors }}
+        <br>
+      <button type="submit" class="submitBtn">Submit</button>
+      <!-- {{ city_form.non_field_errors }} -->
+    </form>
+  </body>
+</html>

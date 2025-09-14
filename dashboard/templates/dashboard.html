@@ -1,0 +1,42 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %} Dashboard {% endblock %}
+{% block content %}
+<section class="dash-section">
+    <div class="familyCard">
+        <!-- <img src="{% static 'images/dashboardfamily.jpg' %}" alt="family"> -->
+        <p class="totalHeading">Total Families</p>
+        <div>
+            <p class="numCount">{{ heads.count }}</p>
+            <a href="{% url 'family_list' %}"><img src="{% static 'images/arrow_outward.png' %}" alt="family"></a>
+        </div>
+    </div>
+    <div class="memberCard">
+        <!-- <img src="{% static 'images/dashboardfamily.jpg' %}" alt="family"> -->
+        <p class="totalHeading">Total Members</p>
+        <div>
+            <p class="numCount">{{ members.count }}</p>
+            <a href="{% url 'family_list' %}"><img src="{% static 'images/arrow_outward.png' %}" alt="family"></a>
+        </div>
+    </div>
+    <div class="stateCard">
+        <!-- <img src="{% static 'images/dashboardstate.png' %}" alt="family"> -->
+        <p class="totalHeading"> Total States</p>
+        <div>
+            <p class="numCount">{{ states.count }}</p>
+            <a href="{% url 'state_list' %}"><img src="{% static 'images/arrow_outward.png' %}" alt="family"></a>
+        </div>
+    </div>
+    <div class="cityCard">
+        <!-- <img src="{% static 'images/dashboardcity.jpg' %}" alt="family"> -->
+        <p class="totalHeading"> Total Cities</p>
+        <div>
+            <p class="numCount">{{ cities.count }}</p>
+            <a href="{% url 'city_list' %}"><img src="{% static 'images/arrow_outward.png' %}" alt="family"></a>
+        </div>
+    </div>
+</section>
+    
+
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+        </div>
+        <div class="nav-list">
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'family_list' %}">Manage Families</a>
+            <a href="{% url 'state_list' %}">Manage States</a>
+            <a href="{% url 'city_list' %}">Manage Cities</a>
+            <button class="logoutBtn"><a href="{% url 'logout_page' %}">Logout</a></button>
+        </div>
+        
+    </nav>
+    {% block content %}
+
+    {% endblock %}
+    <footer>
+        <div class="footer__bar">
+            Copyright © 2025 FamTree. All rights reserved.
+        </div>
+    </footer>
+</body>
+
+</html>

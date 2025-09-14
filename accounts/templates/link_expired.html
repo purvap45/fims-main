@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} Link Expired {% endblock %}
+{% block content %}
+
+<div class="textbox">
+  <h1 class="heading">Sorry, the link has expired.</h1>
+
+  <h4>The link you received is no longer active because it has expired.</h4>
+ 
+  <h4>Please request a new link if you still need to access this resource.</h4>
+
+  <button class="linkBtn">
+    <a href="{% url 'forgot_password' %}">Request a new reset link.</a>
+  </button>
+</div>
+
+{% endblock %}

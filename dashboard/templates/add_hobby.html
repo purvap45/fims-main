@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %} Add Hobby {%endblock %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<section class="form-container">
+  <form method="post" class="add-form">
+    {% csrf_token %}
+    <h2 class="form-heading">Add Hobby for Head: {{ head.name }}</h2>
+    {{ hobby_formset.management_form }}
+
+    <div id="hobby-container">
+      {% for form in hobby_formset %}
+      <div class="hobby-row">
+        {{ form.hobby.label_tag }} {{ form.hobby }}
+        <span class="errorMsg"></span>
+        <button type="button" class="removeHobby">Remove</button>
+      </div>
+      {% endfor %}
+    </div>
+    <button type="button" id="addHobby">+ Add Hobby</button>
+
+    <button type="submit" class="submitBtn">Save</button>
+  </form>
+</section>
+<script src="{% static 'js/form.js' %}"></script>
+
+{% endblock %}

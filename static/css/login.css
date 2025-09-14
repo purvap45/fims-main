@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body {
+    background-color: #fff;
+    padding-top: 5rem;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    background-color: #fff; 
+    color: white;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+.logo {
+    display: flex;
+    align-items: center;
+}
+.logo img {
+    height: 3.5rem;
+}
+.heading {
+    text-align: center;
+    margin-bottom: 0.7rem;
+    color: #2f3640;
+    font-size: 2rem;
+}
+h4 {
+    color: #2f3640;
+}
+.login-section {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+form {
+    min-width: 40vw;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 1px 2px 4px rgba(0,0,0,0.5);
+    background-color: #f8f9fa;
+}
+label {
+    display: block;
+    margin: 0.2rem 0;
+}
+input {
+    width: 100%;
+    border: 1px solid #dcdde1;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 0.4rem;
+}
+form > div {
+    margin-bottom: 1.5rem;
+}
+.loginBtn {
+    background-color: #00896b;
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.3rem;
+    width: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.loginBtn:hover {
+    background-color: #006f56;
+}
+.forgotMsg {
+    text-align: right;
+}
+.forgotMsg a{
+    color: #00896b;
+    text-decoration: none;
+}
+.textbox {
+    height: 80vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+.passMsg {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+.passMsg a{
+    color: #00896b;
+    text-decoration: none;
+}
+.resetBtn {
+    background-color: #00896b;
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 0.3rem;
+    width: 100%;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 1rem 0;
+}
+.resetBtn:hover {
+    background-color: #006f56;
+}
+.linkBtn {
+    background-color: #00896b;
+    color: white;
+    padding: 0.6rem;
+    border: none;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 1rem 0;
+}
+.linkBtn:hover {
+    background-color: #006f56;
+}
+.linkBtn a{
+    color: white;
+    text-decoration: none;
+}
+.footer__bar {
+  padding: 1rem;
+  font-size: 1rem;
+  color: #171717;
+  background-color: #fff; 
+  text-align: center;
+}
+.errorMsg {
+    color: red;
+    font-size: 0.7rem;
+    display: block;
+    margin-top: 0.2rem;
+}
+.errorInput {
+    border-color: red;
+}
+@media(max-width: 300px) {
+    .heading {
+        font-size: 1.5rem;
+    }
+}

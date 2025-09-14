@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Family Form</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- <link rel="stylesheet" href="{% static 'css/familystyle.css' %}" /> -->
+</head>
+
+<body>
+  <h1>Registration Form</h1>
+  <div class="form-container">
+
+    <form id="familyForm" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+    
+
+  <h3>Head</h3>
+  {{ head_form.as_p }}
+
+  <h3>Members</h3>
+  {{ member_formset.management_form }}   <!-- REQUIRED -->
+  {% for form in member_formset %}
+      {{ form.id }}  <!-- hidden field for existing object -->
+      {{ form.as_p }}
+  {% endfor %}
+
+  <h3>Hobbies</h3>
+  {{ hobby_formset.management_form }}    <!-- REQUIRED -->
+  {% for form in hobby_formset %}
+      {{ form.id }}  <!-- hidden field for existing object -->
+      {{ form.as_p }}
+  {% endfor %}
+
+  <button type="submit">Save</button>
+</form>
+
+
+      {{ head_form.non_field_errors }}
+      {{ hobby_formset.non_form_errors }}
+      {{ hobby_formset.non_field_errors }}
+
+      {{ member_formset.non_field_errors }}
+      <!--{% for hidden in head_form.hidden_files %}
+      {{ hidden }}
+      {% endfor %} -->
+
+      <button type="submit" class="submitBtn">Submit</button>
+    </form>
+  </div>
+  <script src="{% static 'js/form.js' %}"></script>
+  <script src="{% static 'js/statecity.js' %}"></script>
+  <script src="{% static 'js/formValidation.js' %}"></script>
+
+</body>
+
+</html>

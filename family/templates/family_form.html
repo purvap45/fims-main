@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Family Form</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Logo">
+    </div>
+  </nav>
+
+  <h1>Registration Form</h1>
+  <div class="form-container">
+
+    <form id="familyForm" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h2>Family Head</h2>
+      <div class="head-container">
+        <div class="nameDiv">
+          {{ head_form.name.label_tag }} {{ head_form.name }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="surnameDiv">
+          {{ head_form.surname.label_tag }} {{ head_form.surname }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="dobDiv">
+          {{ head_form.dob.label_tag }} {{ head_form.dob }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="mobnoD">
+          {{ head_form.mobno.label_tag }} {{ head_form.mobno }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="addressDiv">
+          {{ head_form.address.label_tag }} {{ head_form.address }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="stateDiv">
+          {{ head_form.state.label_tag }} {{ head_form.state }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="cityDiv">
+          {{ head_form.city.label_tag }} {{ head_form.city }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="pincodeDiv">
+          {{ head_form.pincode.label_tag }} {{ head_form.pincode }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="maritalDiv">
+          {{ head_form.marital_status.label_tag }} {{ head_form.marital_status }}
+          <span class="errorMsg"></span>
+        </div>
+        <div id="wedding_date">
+          {{ head_form.wedding_date.label_tag }} {{ head_form.wedding_date }}
+          <span class="errorMsg"></span>
+        </div>
+        <div class="photoDiv">
+          {{ head_form.photo.label_tag }} {{ head_form.photo }}
+          <span class="errorMsg"></span>
+        </div>
+         
+        <!-- <h3>Hobbies</h3> -->
+        {{ hobby_formset.management_form }}
+        <div id="hobby-container">
+          {% for form in hobby_formset %}
+          <div class="hobby-row">
+            {{ form.hobby.label_tag }} {{ form.hobby }} 
+            <span class="errorMsg"></span>
+            <button type="button" class="removeHobby">Remove</button>
+          </div>
+          {% endfor %}
+        </div>
+        <button type="button" id="addHobby">+ Add Hobby</button>
+      </div>
+<!--       
+        {% for error in hobby_formset.errors %}
+        {{ error }}<br/>
+    {% endfor %} -->
+
+      <h2>Members</h2>
+      {{ member_formset.management_form }}
+      <div id="member-container">
+        {% for form in member_formset %}
+        <div class="member-row">
+          <div class="memnameDiv">
+            {{ form.member_name.label_tag }} {{ form.member_name }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="mem_dodDiv">
+            {{ form.member_dob.label_tag }} {{ form.member_dob }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="mem_msDiv">
+            {{ form.member_marital.label_tag }} {{ form.member_marital }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="member-wed" style="display:none">
+            {{ form.member_wedDate.label_tag }} {{ form.member_wedDate }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="educationDiv">
+            {{ form.education.label_tag }} {{ form.education }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="mem_photDiv">
+              {{ form.member_photo.label_tag }} {{ form.member_photo }}
+            <span class="errorMsg"></span>
+          </div>
+          <button type="button" class="removeMember">Remove</button>
+        </div>
+        {% endfor %}
+      </div>
+      <button type="button" id="addMember">+ Add Member</button>
+
+
+      <button type="submit" class="submitBtn">Submit</button>
+    </form>
+    
+  </div>
+  <footer>
+        <div class="footer__bar">
+            Copyright © 2025 FamTree. All rights reserved.
+        </div>
+  </footer>
+  <script src="{% static 'js/form.js' %}"></script>
+  <script src="{% static 'js/statecity.js' %}"></script>
+  <script src="{% static 'js/formValidation.js' %}"></script>
+
+</body>
+
+</html>

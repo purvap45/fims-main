@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>State List</h1>
+    <div class="search-container">
+        <form action="">
+            <div class="search-bar">
+                <label for="search">Search Here</label>
+                <input name="search" id="search" type="text">
+            </div>
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+    <div>
+        {% if not page_obj.object_list %}
+            <p>Not result found</p>
+        {% endif %}
+    </div>
+    <a href="{% url 'create_state' %}">Create State</a>
+    <hr>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for state in page_obj.object_list %}
+                <tr>
+                    <td>{{ state.id }}</td>
+                    <td>{{ state.state_name }}</td>
+                    <td>{{ state.status }}</td>
+                    <td><a href="{% url 'update_state' state.id %}">Edit</a></td>
+                    <td><a href="{% url 'delete_state' state.id %}">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div>
+        {%if page_obj.has_previous %} 
+            <button type="button"><a href="state_list?page=1">First</a></button> 
+            <button type="button"><a href="?page={{page_obj.previous_page_number}}"> Previous</a></button>
+        {% endif %}
+
+        <button type="button">{{page_obj.number}}</button>
+        <!-- {% for n in totalPagelist %}
+            <button type="button"><a href="state_list?page={{n}}">{{n}}</a></button>
+        {% endfor %} -->
+      
+        {%if page_obj.has_next %} 
+            <button type="button"><a href="?page={{page_obj.next_page_number}}">Next</a></button>
+            <button type="button"><a href="?page={{ lastPage }}">Last</a></button>
+        {% endif %}
+    </div>
+
+   <br>
+   <br><br>
+</body>
+</html>
