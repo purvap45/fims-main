@@ -17,7 +17,6 @@
 
   <h1>Registration Form</h1>
   <div class="form-container">
-
     <form id="familyForm" method="post" enctype="multipart/form-data">
       {% csrf_token %}
       <h2>Family Head</h2>
@@ -80,11 +79,10 @@
         </div>
         <button type="button" id="addHobby">+ Add Hobby</button>
       </div>
-<!--       
-        {% for error in hobby_formset.errors %}
+<!-- {% for error in hobby_formset.errors %}
         {{ error }}<br/>
     {% endfor %} -->
-
+    
       <h2>Members</h2>
       {{ member_formset.management_form }}
       <div id="member-container">

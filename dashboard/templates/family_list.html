@@ -57,6 +57,7 @@
                     </td>
                     <td>
                         <a href="{% url 'delete_family' head.id %}"><img src="{% static 'images/delete.png' %}" alt="Delete"></a>
+                        <td><a href="{% url 'update_family' head.id %}">update_family</a></td>
                     </td>
                 </tr>
                 {% endfor %}
