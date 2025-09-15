@@ -23,7 +23,10 @@ def dashboard(request):
 
 @login_required(login_url='login_page')
 def family_list(request):
-    heads = FamilyHead.objects.annotate(member_count= Count('members', filter=Q(status=1)))
+    from django.db.models import Count, Q
+
+    heads = FamilyHead.objects.annotate(member_count=Count('members', filter=~Q(members__status=9)))
+
     members = FamilyMember.objects.all()
     
     if request.GET.get('search'):

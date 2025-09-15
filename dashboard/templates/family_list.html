@@ -24,7 +24,7 @@
 
     <div class="search-result">
         {% if not page_obj.object_list %}
-            <p>No result found</p>
+        <p>No result found</p>
         {% endif %}
     </div>
 
@@ -49,15 +49,30 @@
                     <td>{{ head.name }}</td>
                     <td>{{ head.surname }}</td>
                     <td>{{ head.mobno }}</td>
-                    <td>{{ head.state }}</td> 
+                    <td>{{ head.state }}</td>
                     <td>{{ head.city.city_name }}</td>
-                    <td>{{ head.members.count }}</td>
                     <td>
-                        <a href="{% url 'view_family' head.id %}"><img src="{% static 'images/visibility.png' %}" alt="View"></a>
+                        {{ head.member_count }}
                     </td>
                     <td>
-                        <a href="{% url 'delete_family' head.id %}"><img src="{% static 'images/delete.png' %}" alt="Delete"></a>
-                        <td><a href="{% url 'update_family' head.id %}">update_family</a></td>
+    <ul>
+        {% for member in head.members.all %}
+            {% if member.status != 9 %}
+                <li>{{ member.member_name }}</li>
+            {% endif %}
+        {% empty %}
+            <li>No members</li>
+        {% endfor %}
+    </ul>
+</td>
+                    <td>
+                        <a href="{% url 'view_family' head.id %}"><img src="{% static 'images/visibility.png' %}"
+                                alt="View"></a>
+                    </td>
+                    <td>
+                        <a href="{% url 'delete_family' head.id %}"><img src="{% static 'images/delete.png' %}"
+                                alt="Delete"></a>
+                    <td><a href="{% url 'update_family' head.id %}">update_family</a></td>
                     </td>
                 </tr>
                 {% endfor %}
@@ -67,17 +82,17 @@
 
     <div class="pagination">
         {% if page_obj.has_previous %}
-            <a href="?page=1" class="page-link">First</a>
-            <a href="?page={{page_obj.previous_page_number}}" class="page-link">Previous</a>
+        <a href="?page=1" class="page-link">First</a>
+        <a href="?page={{page_obj.previous_page_number}}" class="page-link">Previous</a>
         {% endif %}
 
         {% for n in totalPagelist %}
-            <a href="?page={{n}}" class="page-link {% if page_obj.number == n %}active{% endif %}">{{n}}</a>
+        <a href="?page={{n}}" class="page-link {% if page_obj.number == n %}active{% endif %}">{{n}}</a>
         {% endfor %}
 
         {% if page_obj.has_next %}
-            <a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a>
-            <a href="?page={{ lastPage }}" class="page-link">Last</a>
+        <a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a>
+        <a href="?page={{ lastPage }}" class="page-link">Last</a>
         {% endif %}
     </div>
 
