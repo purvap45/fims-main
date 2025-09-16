@@ -6,6 +6,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from family.forms import *
 from django.http import JsonResponse
 from family.forms import FamilyMemberForm
+from django.db.models import Count, Q
+import json
 
 @login_required(login_url='login_page')
 def dashboard(request):
@@ -13,20 +15,56 @@ def dashboard(request):
     members = FamilyMember.objects.all()
     states = State.objects.all()
     cities = City.objects.all()
+
+    # Chart data: count members per state
+    members_per_state = (
+        FamilyHead.objects.values('state__state_name')
+        .annotate(total=Count('id'))
+        .order_by('state__state_name')
+    )
+    labels = [item['state__state_name'] for item in members_per_state]
+    values = [item['total'] for item in members_per_state]
+
     context = {
         'members': members,
         'heads': heads,
         'states': states,
         'cities': cities,
+        'chart_labels': json.dumps(labels),   # ✅ JSON string
+        'chart_values': json.dumps(values),   # ✅ JSON string
     }
     return render(request, 'dashboard.html', context)
 
+# @login_required(login_url='login_page')
+# def dashboard(request):
+#     heads = FamilyHead.objects.all()
+#     members = FamilyMember.objects.all()
+#     states = State.objects.all()
+#     cities = City.objects.all()
+
+#     # Chart data: count members per state
+#     members_per_state = (
+#         FamilyHead.objects.values('state__state_name')
+#         .annotate(total=Count('id'))
+#         .order_by('state__state_name')
+#     )
+#     labels = [item['state__state_name'] for item in members_per_state]
+#     values = [item['total'] for item in members_per_state]
+
+#     context = {
+#         'members': members,
+#         'heads': heads,
+#         'states': states,
+#         'cities': cities,
+#         'chart_labels': json.dumps(labels),   # ✅ JSON string
+#         'chart_values': json.dumps(values),   # ✅ JSON string
+#     }
+#     return render(request, 'dashboard.html', context)
+
+
 @login_required(login_url='login_page')
 def family_list(request):
-    from django.db.models import Count, Q
-
     heads = FamilyHead.objects.annotate(member_count=Count('members', filter=~Q(members__status=9)))
-
     members = FamilyMember.objects.all()
     
     if request.GET.get('search'):
