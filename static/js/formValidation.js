@@ -104,6 +104,55 @@ $(document).on(
   }
 );
 
+// $(document).on("change", 'input[type="radio"]', function () {
+//   const $radio = $(this);
+//   const groupName = $radio.attr("name");
+//   const $wrapper = $radio.closest(".maritalDiv, .mem_msDiv");
+//   $wrapper.find(".errorMsg").text("");
+//   $(`input[name="${groupName}"]`).removeClass("errorInput");
+// });
+// Clear marital status errors when user selects an option
+$(document).on("change", 'input[type="radio"]', function () {
+  const groupName = this.name;
+
+  $(this)
+    .closest(".maritalDiv, .mem_msDiv") // go to wrapper
+    .find(".errorMsg")                  // find its error span
+    .text("");                          // clear message
+
+  $(`input[name="${groupName}"]`).removeClass("errorInput"); // clear red border
+});
+
+
+// $(document).on("change", 'input[type="radio"]', function () {
+//   const $radio = $(this);
+//   const name = $radio.attr("name");
+//   const value = $radio.val();
+
+//   console.log("👉 Radio changed");
+//   console.log("   name:", name);
+//   console.log("   value:", value);
+
+//   // all radios in the same group
+//   const $group = $(`input[name="${name}"]`);
+//   console.log("   radios in group:", $group.length);
+
+//   // wrapper that should contain the span.errorMsg
+//   const $wrapper = $radio.closest(".maritalDiv, .mem_msDiv");
+//   console.log("   wrapper found:", $wrapper.length, $wrapper.attr("class"));
+
+//   // find the error span
+//   const $span = $wrapper.find("span.errorMsg");
+//   console.log("   error span found:", $span.length, $span.text());
+
+//   // try to clear
+//   $span.text("");
+//   $group.removeClass("errorInput");
+
+//   console.log("   after clear: span text =", $span.text());
+// });
+
+
 // $(document).on('change', 'input[type="radio"]', function() {
 //     // Find the container with the errorMsg span
 //     let container = $(this).closest('div').parent(); // adjust if needed

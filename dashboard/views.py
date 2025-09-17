@@ -1,37 +1,37 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Count, Q
 from family.models import FamilyMember, FamilyHead, State, City, statusChoice 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from family.forms import *
 from django.http import JsonResponse
 from family.forms import FamilyMemberForm
-from django.db.models import Count, Q
 import json
 
 @login_required(login_url='login_page')
 def dashboard(request):
-    heads = FamilyHead.objects.all()
-    members = FamilyMember.objects.all()
-    states = State.objects.all()
-    cities = City.objects.all()
+    heads = FamilyHead.objects.all().exclude(status=statusChoice.DELETE)
+    members = FamilyMember.objects.all().exclude(status=statusChoice.DELETE)
+    states = State.objects.all().exclude(status=statusChoice.DELETE)
+    cities = City.objects.all().exclude(status=statusChoice.DELETE)
 
-    # Chart data: count members per state
-    members_per_state = (
-        FamilyHead.objects.values('state__state_name')
-        .annotate(total=Count('id'))
-        .order_by('state__state_name')
-    )
-    labels = [item['state__state_name'] for item in members_per_state]
-    values = [item['total'] for item in members_per_state]
+    family_count = State.objects.annotate(total=Count("familyhead")).order_by("-total")[:5]
+    data = list(family_count.values('state_name', 'total'))
+    json_data = json.dumps(data)
+
+    active_states = State.objects.all().filter(status=statusChoice.ACTIVE).count()
+    inactive_states = State.objects.all().filter(status=statusChoice.INACTIVE).count()
 
     context = {
         'members': members,
         'heads': heads,
         'states': states,
         'cities': cities,
-        'chart_labels': json.dumps(labels),   # ✅ JSON string
-        'chart_values': json.dumps(values),   # ✅ JSON string
+        'json_data': json_data,
+        'active_states': active_states,
+        'inactive_states': inactive_states,
+
     }
     return render(request, 'dashboard.html', context)
 
@@ -216,31 +216,25 @@ def delete_family(request, pk):
     return render(request, 'delete_family.html', context)
 
 
+@login_required(login_url='login_page')
 def update_family(request, pk):
     head = FamilyHead.objects.get(id=pk)
-
-    HobbyFormSet = inlineformset_factory(
-        FamilyHead, Hobby, form=HobbyForm, extra=0, can_delete=True
-    )
-    MemberFormSet = inlineformset_factory(
-        FamilyHead, FamilyMember, form=FamilyMemberForm, extra=0, can_delete=True
-    )
+    HobbyFormSet = inlineformset_factory(FamilyHead, Hobby, form=HobbyForm, extra=0, can_delete=True)
+    MemberFormset = inlineformset_factory(FamilyHead, FamilyMember, form=FamilyMemberForm, extra=0, can_delete=True)
 
     head_form = FamilyHeadForm(instance=head)
-    hobby_formset = HobbyFormSet(instance=head, prefix="hobbies")
-    member_formset = MemberFormSet(instance=head, prefix="members")
-
-    if request.method == "POST":
+    hobby_formset = HobbyFormSet(instance=head, prefix="hobbies",  queryset=Hobby.objects.exclude(status=statusChoice.DELETE))
+    member_formset = MemberFormset(instance=head, prefix="members", queryset=FamilyMember.objects.exclude(status=statusChoice.DELETE))
+    if request.method == 'POST':
         head_form = FamilyHeadForm(request.POST, request.FILES, instance=head)
         hobby_formset = HobbyFormSet(request.POST, instance=head, prefix="hobbies")
-        member_formset = MemberFormSet(request.POST, request.FILES, instance=head, prefix="members")
+        member_formset = MemberFormset(request.POST, request.FILES, instance=head, prefix="members")
 
         if head_form.is_valid() and hobby_formset.is_valid() and member_formset.is_valid():
-            head_form.save()
+            family_head = head_form.save()
             hobby_formset.save()
             member_formset.save()
-            return redirect('view_family', pk=pk)
-            # return JsonResponse({"success": True})
+            return JsonResponse({"success": True, "message": "Family Updated Successfully."})
         else:
             return JsonResponse({
                 "success": False,
@@ -250,12 +244,12 @@ def update_family(request, pk):
             }, status=400)
 
     context = {
-        "head_form": head_form,
-        "hobby_formset": hobby_formset,
-        "member_formset": member_formset,
-        "head": head,
+        'head_form': head_form,
+        'hobby_formset': hobby_formset,
+        'member_formset': member_formset,
+        'head': head
     }
-    return render(request, "update_family.html", context)
+    return render(request, 'update_family.html', context)
 
 
 # def update_member(request, pk):

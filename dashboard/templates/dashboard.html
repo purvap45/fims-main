@@ -1,11 +1,9 @@
 {% extends 'main.html' %}
 {% load static %}
-
 {% block title %} Dashboard {% endblock %}
 {% block content %}
 <section class="dash-section">
     <div class="familyCard">
-        <!-- <img src="{% static 'images/dashboardfamily.jpg' %}" alt="family"> -->
         <p class="totalHeading">Total Families</p>
         <div>
             <p class="numCount">{{ heads.count }}</p>
@@ -13,7 +11,6 @@
         </div>
     </div>
     <div class="memberCard">
-        <!-- <img src="{% static 'images/dashboardfamily.jpg' %}" alt="family"> -->
         <p class="totalHeading">Total Members</p>
         <div>
             <p class="numCount">{{ members.count }}</p>
@@ -21,7 +18,6 @@
         </div>
     </div>
     <div class="stateCard">
-        <!-- <img src="{% static 'images/dashboardstate.png' %}" alt="family"> -->
         <p class="totalHeading"> Total States</p>
         <div>
             <p class="numCount">{{ states.count }}</p>
@@ -29,7 +25,6 @@
         </div>
     </div>
     <div class="cityCard">
-        <!-- <img src="{% static 'images/dashboardcity.jpg' %}" alt="family"> -->
         <p class="totalHeading"> Total Cities</p>
         <div>
             <p class="numCount">{{ cities.count }}</p>
@@ -37,76 +32,61 @@
         </div>
     </div>
 </section>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<section class="chart-section">
+    <div class="chart"><canvas id="myChart"></canvas></div>
+    <div class="chart"><canvas id="Chart2"></canvas></div>
+</section>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script>
+    var data = JSON.parse('{{ json_data | safe }}');
+    console.log(data)
+    var xValues = data.map(item => item.state_name);
+    var yValues = data.map(item => item.total);
+    var barColors = ["#b91d47", "#00aba9","#2b5797", "#e8c3b9", "#1e7145"];
 
-<h3 class="text-xl font-bold mb-2">Members per State</h3>
-<canvas id="membersChart" width="400" height="200"></canvas>
-
-<!-- <script>
-    // ✅ Safely load JSON into JS
-    const labels = JSON.parse('{{ chart_labels|escapejs }}');
-    const values = JSON.parse('{{ chart_values|escapejs }}');
-
-    const ctx = document.getElementById('membersChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'bar',
+    new Chart("myChart", {
+        type: "pie",
         data: {
-            labels: labels,
+            labels: xValues,
             datasets: [{
-                label: 'Members Count',
-                data: values,
-                borderWidth: 1,
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: barColors,
+                data: yValues
             }]
         },
         options: {
-            responsive: true,
-            scales: {
-                y: { beginAtZero: true }
+            title: {
+                display: true,
+                text: "Total Families Per State"
             }
         }
     });
-    console.log(Chart);
-console.log(labels, values);
 
-</script> -->
-<h3 class="text-xl font-bold mb-2">Active States vs Cities</h3>
-<canvas id="stateCityChart" width="400" height="200"></canvas>
+    var active_states = JSON.parse('{{ active_states | safe }}');
+    var inactive_states = JSON.parse('{{ inactive_states | safe }}');
+    var x = ['active_states', 'inactive_states'];
+    var y = [active_states, inactive_states];
+    console.log(y)
+    var Colors = ["#e8c3b9", "#b91d47"];
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    const labels = JSON.parse('{{ chart_labels|escapejs }}');
-    const values = JSON.parse('{{ chart_values|escapejs }}');
+    console.log(active_states);
 
-    console.log("Pie Chart Data:", labels, values);  // Debug
-
-    const ctx = document.getElementById('stateCityChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'pie',
+    new Chart("Chart2", {
+        type: "doughnut",
         data: {
-            labels: labels,
+            labels: x,
             datasets: [{
-                label: 'Active Counts',
-                data: values,
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(255, 159, 64, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
+                backgroundColor: Colors,
+                data: y
             }]
         },
         options: {
-            responsive: true
+            title: {
+                display: true,
+                text: "Active and Inactive State"
+            }
         }
     });
 </script>
-
-
 {% endblock %}
