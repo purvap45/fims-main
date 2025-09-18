@@ -46,6 +46,13 @@ body {
     color: #00896b;
     font-weight: bold;
 }
+.nav-list a.active {
+    color: #00896b;
+    font-weight: bold;
+    border-bottom: 2px solid #00896b; /* underline effect */
+    padding-bottom: 3px; /* keeps it neat */
+}
+
 .logoutBtn {
     background-color: #00896b;
     color: white;

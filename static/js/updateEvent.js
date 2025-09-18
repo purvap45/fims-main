@@ -74,7 +74,6 @@ $(document).ready(function () {
 
   // Add Member
   let memberIdx = $("#id_members-TOTAL_FORMS").val();
-
   $("#addMember").click(function () {
     let lastRow = $("#member-container .member-row:last");
     let nameInput = lastRow.find('input[type="text"][name$="member_name"]');
@@ -84,23 +83,29 @@ $(document).ready(function () {
       return;
     }
     let newRow = lastRow.clone();
-    newRow.find("input,select,textarea").each(function () {
-      let name = $(this).attr("name");
-      if (name) {
-        name = name.replace(/-\d+-/, "-" + memberIdx + "-");
-        $(this).attr("name", name);
-      }
-      let id = $(this).attr("id");
-      if (id) {
-        id = id.replace(/-\d+-/, "-" + memberIdx + "-");
-        $(this).attr("id", id);
-      }
-      if ($(this).is(":radio") || $(this).is(":checkbox")) {
-        $(this).prop("checked", false);
-      } else {
-        $(this).val("");
-      }
-    });
+    newRow.find('input,label,div').each(function () {
+    let name = $(this).attr('name');
+    if (name) {
+        name = name.replace(/-\d+-/, '-' + memberIdx + '-');
+        $(this).attr('name', name);
+    }
+    let id = $(this).attr('id');
+    if (id) {
+        id = id.replace(/-\d+-/, '-' + memberIdx + '-');
+        $(this).attr('id', id);
+    }
+    let forAttr = $(this).attr('for');
+    if (forAttr) {
+        forAttr = forAttr.replace(/-\d+-/, '-' + memberIdx + '-');
+        $(this).attr('for', forAttr);
+    }
+    if ($(this).is(':radio') || $(this).is(':checkbox')) {
+        $(this).prop('checked', false);
+    } else if ($(this).is('input')) {
+        $(this).val('');
+    }
+});
+
     newRow.find('.mem_photDiv').html(`
         <label for="id_members-${memberIdx}-member_photo">Photo:</label>
         <input type="file" name="members-${memberIdx}-member_photo" accept="image/*" id="id_members-${memberIdx}-member_photo">

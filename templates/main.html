@@ -15,11 +15,11 @@
             <img src="{% static 'images/logo.png' %}" alt="Logo">
         </div>
         <div class="nav-list">
-            <a href="{% url 'dashboard' %}">Dashboard</a>
-            <a href="{% url 'family_list' %}">Manage Families</a>
-            <a href="{% url 'state_list' %}">Manage States</a>
-            <a href="{% url 'city_list' %}">Manage Cities</a>
-            <button class="logoutBtn"><a href="{% url 'logout_page' %}">Logout</a></button>
+            <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
+      <a href="{% url 'family_list' %}" class="{% if request.resolver_match.url_name == 'family_list' %}active{% endif %}">Manage Families</a>
+      <a href="{% url 'state_list' %}" class="{% if request.resolver_match.url_name == 'state_list' %}active{% endif %}">Manage States</a>
+      <a href="{% url 'city_list' %}" class="{% if request.resolver_match.url_name == 'city_list' %}active{% endif %}">Manage Cities</a>
+      <button class="logoutBtn"><a href="{% url 'logout_page' %}">Logout</a></button>
         </div>
         
     </nav>
