@@ -50,48 +50,99 @@ $(document).ready(function () {
     });
     $('.removeHobby').hide();
 
-    // Add Member 
-    let memberIdx = $('#id_members-TOTAL_FORMS').val(); 
+    let memberIdx = $('#id_members-TOTAL_FORMS').val();
 
-    $('#addMember').click(function() {
-        let lastRow = $('#member-container .member-row:last');
-        let nameInput = lastRow.find('input[type="text"][name$="member_name"]');
-        if (nameInput.val().trim() === "") { 
-            alert("Please fill the current member before adding a new one."); 
-            nameInput.focus(); 
-            return; 
+$('#addMember').click(function () {
+    // validate last member if exists
+    let lastRow = $('#member-container .member-row:last');
+    if (lastRow.length) {
+        let nameInput = lastRow.find('input[name$="member_name"]');
+        if (nameInput.val().trim() === "") {
+            alert("Please fill the current member before adding a new one.");
+            nameInput.focus();
+            return;
         }
-        let newRow = lastRow.clone();
-        newRow.find('input,select,textarea').each(function () {
-            let name = $(this).attr('name');
-            if (name) {
-                name = name.replace(/-\d+-/, '-' + memberIdx + '-');
-                $(this).attr('name', name);
-            }
-            let id = $(this).attr('id');
-            if (id) {
-                id = id.replace(/-\d+-/, '-' + memberIdx + '-');
-                $(this).attr('id', id);
-            }
-            if ($(this).is(':radio') || $(this).is(':checkbox')) {
-                $(this).prop('checked', false);
-            } else {
-                $(this).val('');
-            }
-        });
-        newRow.find('.removeMember').show();
-        $('#member-container').append(newRow);
-        newRow.find('.member-wed').hide();
-        memberIdx++;       
-        $('#id_members-TOTAL_FORMS').val(memberIdx);
+    }
+
+    // clone template
+    let newRow = $('#member-template .member-row').clone();
+    newRow.find('input,label,div').each(function () {
+        let name = $(this).attr('name');
+        if (name) {
+            name = name.replace(/__prefix__/, memberIdx);
+            $(this).attr('name', name);
+        }
+        let id = $(this).attr('id');
+        if (id) {
+            id = id.replace(/__prefix__/, memberIdx);
+            $(this).attr('id', id);
+        }
+        let labelfor = $(this).attr('for');
+        if (labelfor) {
+            labelfor = labelfor.replace(/__prefix__/, memberIdx);
+            $(this).attr('for', labelfor);
+        }
+        if ($(this).is(':radio') || $(this).is(':checkbox')) {
+            $(this).prop('checked', false);
+        } else {
+            $(this).val('');
+        }
     });
 
-    $('#member-container').on('click', '.removeMember', function() {
-        $(this).closest('.member-row').remove();
-        memberIdx--; 
-        $('#id_members-TOTAL_FORMS').val(memberIdx);
-    });
-    $('.removeMember').hide();
+    $('#member-container').append(newRow);
+    memberIdx++;
+    $('#id_members-TOTAL_FORMS').val(memberIdx);
+});
+
+// remove member
+$('#member-container').on('click', '.removeMember', function () {
+    $(this).closest('.member-row').remove();
+    // do NOT decrement TOTAL_FORMS (Django expects count of forms rendered)
+});
+
+
+    // Add Member 
+    // let memberIdx = $('#id_members-TOTAL_FORMS').val(); 
+
+    // $('#addMember').click(function() {
+    //     let lastRow = $('#member-container .member-row:last');
+    //     let nameInput = lastRow.find('input[type="text"][name$="member_name"]');
+    //     if (nameInput.val().trim() === "") { 
+    //         alert("Please fill the current member before adding a new one."); 
+    //         nameInput.focus(); 
+    //         return; 
+    //     }
+    //     let newRow = lastRow.clone();
+    //     newRow.find('input,select,textarea').each(function () {
+    //         let name = $(this).attr('name');
+    //         if (name) {
+    //             name = name.replace(/-\d+-/, '-' + memberIdx + '-');
+    //             $(this).attr('name', name);
+    //         }
+    //         let id = $(this).attr('id');
+    //         if (id) {
+    //             id = id.replace(/-\d+-/, '-' + memberIdx + '-');
+    //             $(this).attr('id', id);
+    //         }
+    //         if ($(this).is(':radio') || $(this).is(':checkbox')) {
+    //             $(this).prop('checked', false);
+    //         } else {
+    //             $(this).val('');
+    //         }
+    //     });
+    //     newRow.find('.removeMember').show();
+    //     $('#member-container').append(newRow);
+    //     newRow.find('.member-wed').hide();
+    //     memberIdx++;       
+    //     $('#id_members-TOTAL_FORMS').val(memberIdx);
+    // });
+
+    // $('#member-container').on('click', '.removeMember', function() {
+    //     $(this).closest('.member-row').remove();
+    //     memberIdx--; 
+    //     $('#id_members-TOTAL_FORMS').val(memberIdx);
+    // });
+    // $('.removeMember').hide();
     
 });
 // const memberrow = document.querySelectorAll('.member-row')
@@ -128,3 +179,5 @@ $(document).ready(function () {
 //             } else {
 //                 $(this).val('');
 //             }
+
+

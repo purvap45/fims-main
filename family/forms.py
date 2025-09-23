@@ -214,4 +214,4 @@ class MemberInlineFormSet(BaseInlineFormSet):
                 instance.save()
         return instances
 
-MemberFormset = inlineformset_factory(FamilyHead, FamilyMember, form=FamilyMemberForm, extra=1, formset=MemberInlineFormSet)
+MemberFormset = inlineformset_factory(FamilyHead, FamilyMember, form=FamilyMemberForm, extra=0, formset=MemberInlineFormSet)
