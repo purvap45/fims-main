@@ -39,6 +39,8 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
 <script>
     var data = JSON.parse('{{ json_data | safe }}');
     console.log(data)
@@ -47,21 +49,34 @@
     var barColors = ["#b91d47", "#00aba9","#2b5797", "#e8c3b9", "#1e7145"];
 
     new Chart("myChart", {
-        type: "pie",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }]
+    type: "pie",
+    data: {
+        labels: xValues,
+        datasets: [{
+            backgroundColor: barColors,
+            data: yValues
+        }]
+    },
+    options: {
+        title: {
+            display: true,
+            text: "Total Families Per State"
         },
-        options: {
-            title: {
-                display: true,
-                text: "Total Families Per State"
+        plugins: {
+            datalabels: {
+                color: "#fff",
+                font: {
+                    weight: "bold"
+                },
+                formatter: function(value, context) {
+                    return value; // shows count
+                }
             }
         }
-    });
+    },
+    plugins: [ChartDataLabels]
+});
+
 
     var active_states = JSON.parse('{{ active_states | safe }}');
     var inactive_states = JSON.parse('{{ inactive_states | safe }}');
@@ -73,20 +88,33 @@
     console.log(active_states);
 
     new Chart("Chart2", {
-        type: "doughnut",
-        data: {
-            labels: x,
-            datasets: [{
-                backgroundColor: Colors,
-                data: y
-            }]
+    type: "doughnut",
+    data: {
+        labels: x,
+        datasets: [{
+            backgroundColor: Colors,
+            data: y
+        }]
+    },
+    options: {
+        title: {
+            display: true,
+            text: "Active and Inactive State"
         },
-        options: {
-            title: {
-                display: true,
-                text: "Active and Inactive State"
+        plugins: {
+            datalabels: {
+                color: "#fff",
+                font: {
+                    weight: "bold"
+                },
+                formatter: function(value, context) {
+                    return value;
+                }
             }
         }
-    });
+    },
+    plugins: [ChartDataLabels]
+});
+
 </script>
 {% endblock %}
