@@ -9,7 +9,24 @@ class MaritalStatus(models.TextChoices):
     MARRIED = "Married"
     UNMARRIED = "Unmarried"
 
-class State(models.Model):
+class BaseModel(models.Model):
+    status = models.IntegerField(
+        choices=statusChoice.choices,
+        default=statusChoice.ACTIVE.value,
+    )
+
+    class Meta:
+        abstract = True
+
+    def soft_delete(self):
+        self.status = statusChoice.DELETE
+        self.save(update_fields=["status"])
+
+    def delete(self, *args, **kwargs):
+        # override hard delete with soft delete
+        self.soft_delete()
+
+class State(BaseModel):
     state_name = models.CharField(max_length=30)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -21,9 +38,16 @@ class State(models.Model):
 
     def __str__(self):
         return self.state_name
+
+    def soft_delete(self):
+        super().soft_delete()
+        # cascade: cities
+        self.city_set.update(status=statusChoice.DELETE)
+        # cascade: family heads -> inactive
+        FamilyHead.objects.filter(state=self).update(status=statusChoice.INACTIVE)
     
 
-class City(models.Model):
+class City(BaseModel):
     state = models.ForeignKey(State, on_delete=models.CASCADE)
     city_name = models.CharField(max_length=40)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -36,8 +60,12 @@ class City(models.Model):
     def __str__(self):
         return self.city_name
 
+    def soft_delete(self):
+        super().soft_delete()
+        # cascade: family heads -> inactive
+        FamilyHead.objects.filter(city=self).update(status=statusChoice.INACTIVE)
 
-class FamilyHead(models.Model):
+class FamilyHead(BaseModel):
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
     dob = models.DateField()
@@ -58,9 +86,16 @@ class FamilyHead(models.Model):
 
     def __str__(self):
         return self.name
+
+    def soft_delete(self):
+        super().soft_delete()
+        # cascade: members
+        self.members.update(status=statusChoice.DELETE)
+        # cascade: hobbies
+        self.hobbies.update(status=statusChoice.DELETE)
     
 
-class Hobby(models.Model):
+class Hobby(BaseModel):
     hobby = models.CharField(max_length=50)
     family_head = models.ForeignKey(FamilyHead, on_delete=models.CASCADE, related_name="hobbies")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -73,7 +108,7 @@ class Hobby(models.Model):
     def __str__(self):
         return self.hobby
 
-class FamilyMember(models.Model):
+class FamilyMember(BaseModel):
     family_head = models.ForeignKey(FamilyHead, on_delete=models.CASCADE, related_name="members")
     member_name = models.CharField(max_length=50)
     member_dob = models.DateField()

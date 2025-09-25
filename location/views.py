@@ -44,9 +44,7 @@ def update_state(request, pk):
 def delete_state(request, pk):
     state = State.objects.get(id=pk)
     if request.method == 'POST':
-        state.status = statusChoice.DELETE
-        state.save()
-        City.objects.filter(state_id=state).update(status = statusChoice.DELETE)
+        state.soft_delete() 
         return redirect('state_list')
     context = {'state':state}
     return render(request, 'delete_state.html', context)
@@ -91,8 +89,7 @@ def update_city(request, pk):
 def delete_city(request, pk):
     city = City.objects.get(id=pk)
     if request.method == 'POST':
-        city.status = statusChoice.DELETE
-        city.save()
+        city.soft_delete()
         return redirect('city_list')
     context = {'city':city}
     return render(request, 'delete_city.html', context)
