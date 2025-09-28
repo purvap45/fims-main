@@ -72,7 +72,7 @@ form.addEventListener("submit", async (e) => {
 
 function setErrorMsg(input, errorMsg) {
   if (!input) return;
-  let inputField = input.closest("div"); 
+  let inputField = input.closest("div");
   if (input.type === "radio") {
     while (inputField && !inputField.querySelector("span.errorMsg")) {
       inputField = inputField.parentElement;
@@ -122,6 +122,9 @@ function validateHead() {
     isValid = false;
   } else if (/\d/.test(nameVal)) {
     setErrorMsg(name, "Name should not contain digits");
+    isValid = false;
+  } else if (/\s/.test(nameVal)) {
+    setErrorMsg(name, "Only first name allowed (no spaces).");
     isValid = false;
   }
 
@@ -233,15 +236,34 @@ function validateHead() {
 
 function validateHobby() {
   let isValid = true;
-  // First hobby
-  let firstHobby = $('#hobby-container .hobby-row:first input[type="text"]')[0];
-  $('#hobby-container .hobby-row:first .errorMsg').text('');
-  if (!firstHobby.value.trim()) {
-    setErrorMsg(firstHobby, 'At least one hobby is required.');
+  let hobbyVals = [];
+
+  let rows = $('#hobby-container .hobby-row');
+  if (rows.length === 0) {
+    alert("At least one hobby is required.");
     isValid = false;
+    return isValid;
   }
+
+  rows.each(function () {
+    let input = $(this).find('input[type="text"]')[0];
+    if (!input) return;
+
+    let val = input.value.trim();
+    if (!val) {
+      setErrorMsg(input, 'Hobby is required.');
+      isValid = false;
+    } else if (hobbyVals.includes(val.toLowerCase())) {
+      setErrorMsg(input, 'Duplicate hobby is not allowed.');
+      isValid = false;
+    } else {
+      hobbyVals.push(val.toLowerCase());
+    }
+  });
+
   return isValid;
 }
+
 
 function validateMember() {
   let isValid = true;

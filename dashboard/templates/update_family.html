@@ -5,11 +5,16 @@
 <head>
   <title>Update Family</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/familystyle.css' %}" />
 </head>
 
 <body>
   <nav class="navbar">
+    <div class="logo">
+      <a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="Logo"></a>
+    </div>
+  </nav>
+  <!-- <nav class="navbar">
     <div class="logo">
         <img src="{% static 'images/logo.png' %}" alt="Logo">
     </div>
@@ -20,7 +25,7 @@
         <a href="{% url 'city_list' %}">Manage Cities</a>
         <button class="logoutBtn"><a href="{% url 'logout_page' %}">Logout</a></button>
     </div>
-  </nav>
+  </nav> -->
 
   <h1>Update Family</h1>
   <div class="form-container">
@@ -30,7 +35,6 @@
       <input type="hidden" name="pk" id="pk" value="{{head.id}}">
       <h2>Family Head</h2>
       <div class="head-container">
-
         <!-- {{ head_form.as_p }} -->
         <div class="nameDiv">
           {{ head_form.name.label_tag }} {{ head_form.name }}
@@ -68,12 +72,12 @@
           {{ head_form.marital_status.label_tag }} {{ head_form.marital_status }}
           <span class="errorMsg"></span>
         </div>
-        <div id="wedding_date" {% if head_form.marital_status.value != "Married" %} style="display:none" {% endif %}>
+        <div id="wedding_date" {% if head.marital_status != "Married" %} style="display:none" {% endif %}>
           {{ head_form.wedding_date.label_tag }} {{ head_form.wedding_date }}
           <span class="errorMsg"></span>
         </div>
         <div class="photoDiv">
-          {{ head_form.photo.label_tag }} 
+          {{ head_form.photo.label_tag }}
           <!-- {% if head_form.instance.photo %} <img src="{{ head_form.instance.photo.url }}" alt="" height="100px">  {%endif%} -->
           {{ head_form.photo }}
           <span class="errorMsg"></span>
@@ -90,9 +94,9 @@
               <span class="errorMsg"></span>
             </div>
             <div>
-              {{ form.DELETE }} <small>Check the Box to Delete Hobby.</small> 
+              {{ form.DELETE }} <small>Check the Box to Delete Hobby.</small>
             </div>
-            <button type="button" class="removeHobby">Remove</button>
+            <!-- <button type="button" class="removeHobby">Remove</button> -->
           </div>
           {% endfor %}
         </div>
@@ -106,7 +110,18 @@
           {% endfor %}
         </div> -->
         <button type="button" id="addHobby">+ Add Hobby</button>
+        <div id="hobby-template" style="display: none;">
+          <div class="hobby-row">
+            <div>
+              {{ hobby_formset.empty_form.label_tag }}
+              {{ hobby_formset.empty_form.hobby }}
+              <span class="errorMsg"></span>
+            </div>
+            <button type="button" class="removeHobby">Remove</button>
+          </div>
+        </div>
       </div>
+
 
       <h2>Members</h2>
       {{ member_formset.management_form }}
@@ -126,12 +141,16 @@
             {{ form.member_marital.label_tag }} {{ form.member_marital }}
             <span class="errorMsg"></span>
           </div>
-          <div class="member-wed" {% if form.member_marital.value != "Married" %} style="display:none" {% endif %}>
+          <div class="member-wed" {% if form.instance.member_marital != "Married" %} style="display:none" {% endif %}>
             {{ form.member_wedDate.label_tag }} {{ form.member_wedDate }}
             <span class="errorMsg"></span>
           </div>
           <div class="educationDiv">
             {{ form.education.label_tag }} {{ form.education }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="relationDiv">
+            {{ form.relation.label_tag }} {{ form.relation }}
             <span class="errorMsg"></span>
           </div>
           <div class="mem_photDiv">
@@ -141,10 +160,8 @@
           <div>
             {{ form.DELETE }} <small>Check the Box to Delete Member.</small>
           </div>
-
-          <button type="button" class="removeMember" id="updateSubmit">Remove</button>
+          <!-- <button type="button" class="removeMember" id="updateSubmit">Remove</button> -->
         </div>
-
         {% endfor %}
       </div>
       <!-- <div id="member-container">
@@ -158,11 +175,46 @@
       </div> -->
       <button type="button" id="addMember">+ Add Member</button>
 
-      {{ head_form.non_field_errors }}
-      {{ hobby_formset.non_form_errors }}
-      {{ hobby_formset.non_field_errors }}
-
-      {{ member_formset.non_field_errors }}
+      <div id="member-template" style="display: none;">
+        <div class="member-row">
+          <div class="memnameDiv">
+            {{ member_formset.empty_form.member_name.label_tag }}
+            {{ member_formset.empty_form.member_name }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="mem_dodDiv">
+            {{ member_formset.empty_form.member_dob.label_tag }}
+            {{ member_formset.empty_form.member_dob }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="mem_msDiv">
+            {{ member_formset.empty_form.member_marital.label_tag }}
+            {{ member_formset.empty_form.member_marital }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="member-wed" style="display:none">
+            {{ member_formset.empty_form.member_wedDate.label_tag }}
+            {{ member_formset.empty_form.member_wedDate }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="educationDiv">
+            {{ member_formset.empty_form.education.label_tag }}
+            {{ member_formset.empty_form.education }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="relationDiv">
+            {{ member_formset.empty_form.relation.label_tag }}
+            {{ member_formset.empty_form.relation }}
+            <span class="errorMsg"></span>
+          </div>
+          <div class="mem_photDiv">
+            {{ member_formset.empty_form.member_photo.label_tag }}
+            {{ member_formset.empty_form.member_photo }}
+            <span class="errorMsg"></span>
+          </div>
+          <button type="button" class="removeMember">Remove</button>
+        </div>
+      </div>
 
       <button type="submit" class="submitBtn">Submit</button>
     </form>
